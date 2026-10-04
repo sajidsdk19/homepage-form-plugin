@@ -1,0 +1,795 @@
+/**
+ * Moving Quote Form – front-end styles.
+ *
+ * Everything is scoped to .mqf-quote (the form) or .mqf-suggest (the address
+ * dropdown, which is attached to <body> so no container can clip it).
+ * Colours come from CSS variables set by the plugin settings; override them in
+ * your own CSS with e.g.  .mqf-quote { --mqf-bar-bg: #123456; }
+ */
+
+.mqf-quote {
+	--mqf-bar-bg: #06183a;
+	--mqf-bar-text: #ffffff;
+	--mqf-field-bg: #ffffff;
+	--mqf-field-text: #16213a;
+	--mqf-button-bg: #020b20;
+	--mqf-button-text: #ffffff;
+	--mqf-accent: #3b82f6;
+	--mqf-radius: 14px;
+	--mqf-field-height: 46px;
+	--mqf-error-bg: #ffffff;
+	--mqf-error-text: #b42318;
+
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	color: var(--mqf-bar-text);
+	font-family: inherit;
+	font-size: 15px;
+	line-height: 1.4;
+	text-align: start;
+	container-type: inline-size;
+	scroll-margin-top: 96px;
+}
+
+.mqf-quote *,
+.mqf-quote *::before,
+.mqf-quote *::after {
+	box-sizing: border-box;
+}
+
+.mqf-quote [hidden] {
+	display: none !important;
+}
+
+.mqf-quote .mqf-sr-only {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ---------- step transition ---------- */
+
+.mqf-quote .mqf-step {
+	margin: 0;
+	padding: 0;
+	opacity: 1;
+	transform: none;
+	transition: opacity 0.19s ease, transform 0.19s ease;
+}
+
+.mqf-quote .mqf-step.mqf-is-leaving {
+	opacity: 0;
+	transform: translateY(-6px);
+}
+
+.mqf-quote .mqf-step.mqf-is-entering {
+	opacity: 0;
+	transform: translateY(10px);
+	transition: none;
+}
+
+/* ---------- step 1: location bar ---------- */
+
+.mqf-quote .mqf-bar {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	padding: 14px 16px;
+	background: var(--mqf-bar-bg);
+	border-radius: var(--mqf-radius);
+}
+
+.mqf-quote .mqf-loc {
+	flex: 1 1 0;
+	min-width: 0;
+	margin: 0;
+}
+
+.mqf-quote .mqf-loc .mqf-loc__control {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	height: var(--mqf-field-height);
+	padding: 0 8px 0 16px;
+	background: var(--mqf-field-bg);
+	color: var(--mqf-field-text);
+	border: 2px solid transparent;
+	border-radius: 999px;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mqf-quote .mqf-loc .mqf-loc__control:focus-within {
+	border-color: var(--mqf-accent);
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--mqf-accent) 38%, transparent);
+}
+
+.mqf-quote .mqf-loc.mqf-has-error .mqf-loc__control {
+	border-color: #f97066;
+}
+
+.mqf-quote .mqf-loc .mqf-loc__icon {
+	flex: none;
+	width: 18px;
+	height: 18px;
+	color: inherit;
+}
+
+.mqf-quote .mqf-loc .mqf-loc__control .mqf-loc__input {
+	flex: 1 1 auto;
+	min-width: 0;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	outline: 0;
+	color: inherit;
+	font: inherit;
+	font-size: 16px; /* 16px stops iOS from zooming the page on focus. */
+	line-height: 1.2;
+	text-overflow: ellipsis;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.mqf-quote .mqf-loc .mqf-loc__control .mqf-loc__input::placeholder {
+	color: inherit;
+	opacity: 0.85;
+}
+
+.mqf-quote .mqf-loc .mqf-loc__control .mqf-loc__clear {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 50%;
+	box-shadow: none;
+	color: inherit;
+	opacity: 0.6;
+	cursor: pointer;
+}
+
+.mqf-quote .mqf-loc .mqf-loc__control .mqf-loc__clear:hover,
+.mqf-quote .mqf-loc .mqf-loc__control .mqf-loc__clear:focus-visible {
+	opacity: 1;
+	background: rgba(22, 33, 58, 0.08);
+}
+
+.mqf-quote .mqf-bar__dots {
+	flex: none;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	height: var(--mqf-field-height);
+}
+
+.mqf-quote .mqf-bar__dots i {
+	display: block;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: var(--mqf-bar-text);
+}
+
+/* ---------- buttons ---------- */
+
+.mqf-quote .mqf-btn.mqf-btn {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	height: var(--mqf-field-height);
+	min-height: 0;
+	margin: 0;
+	padding: 0 26px;
+	background: var(--mqf-button-bg);
+	color: var(--mqf-button-text);
+	border: 0;
+	border-radius: 999px;
+	box-shadow: none;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0;
+	text-transform: none;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: box-shadow 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+}
+
+.mqf-quote .mqf-btn.mqf-btn:hover {
+	background: var(--mqf-button-bg);
+	color: var(--mqf-button-text);
+	box-shadow: inset 0 0 0 999px rgba(255, 255, 255, 0.1);
+}
+
+.mqf-quote .mqf-btn.mqf-btn:active {
+	transform: translateY(1px);
+}
+
+.mqf-quote .mqf-btn.mqf-btn:focus-visible {
+	outline: 2px solid var(--mqf-bar-text);
+	outline-offset: 2px;
+}
+
+.mqf-quote .mqf-btn.mqf-btn[disabled] {
+	opacity: 0.75;
+	cursor: progress;
+}
+
+.mqf-quote .mqf-btn__spinner {
+	display: none;
+	width: 16px;
+	height: 16px;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: mqf-spin 0.7s linear infinite;
+}
+
+.mqf-quote .mqf-btn.mqf-is-loading .mqf-btn__spinner {
+	display: inline-block;
+}
+
+@keyframes mqf-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* ---------- messages ---------- */
+
+.mqf-quote .mqf-error,
+.mqf-quote .mqf-form-error,
+.mqf-quote .mqf-notice {
+	margin: 6px 0 0;
+	padding: 6px 12px;
+	background: var(--mqf-error-bg);
+	color: var(--mqf-error-text);
+	border-radius: 10px;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.35;
+}
+
+.mqf-quote .mqf-form-error {
+	margin-top: 16px;
+	padding: 10px 14px;
+}
+
+.mqf-quote .mqf-notice {
+	margin-top: 8px;
+	padding: 8px 14px;
+	background: #fffaeb;
+	color: #7a2e0e;
+}
+
+.mqf-quote .mqf-notice.mqf-notice--error {
+	background: var(--mqf-error-bg);
+	color: var(--mqf-error-text);
+}
+
+.mqf-quote .mqf-admin-note {
+	margin: 0 0 8px;
+	padding: 8px 12px;
+	background: #fffaeb;
+	color: #5c3b00;
+	border-radius: 8px;
+	font-size: 13px;
+}
+
+.mqf-quote .mqf-admin-note a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.mqf-quote .mqf-noscript {
+	margin: 8px 0 0;
+	padding: 8px 12px;
+	background: #ffffff;
+	color: #16213a;
+	border-radius: 8px;
+	font-size: 13px;
+}
+
+/* ---------- step 2: details form ---------- */
+
+.mqf-quote .mqf-panel {
+	padding: 24px;
+	background: var(--mqf-bar-bg);
+	color: var(--mqf-bar-text);
+	border-radius: var(--mqf-radius);
+}
+
+.mqf-quote .mqf-panel .mqf-panel__title {
+	margin: 0 0 16px;
+	padding: 0;
+	color: inherit;
+	font-family: inherit;
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.25;
+	letter-spacing: 0;
+	text-transform: none;
+	outline: 0;
+}
+
+.mqf-quote .mqf-route {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 10px 20px;
+	margin: 0 0 20px;
+	padding: 12px 16px;
+	background: rgba(255, 255, 255, 0.1);
+	background: color-mix(in srgb, var(--mqf-bar-text) 10%, transparent);
+	border-radius: 12px;
+}
+
+.mqf-quote .mqf-route__item {
+	min-width: 0;
+}
+
+.mqf-quote .mqf-route__label {
+	display: block;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	opacity: 0.72;
+}
+
+.mqf-quote .mqf-route__value {
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+.mqf-quote .mqf-route .mqf-route__edit {
+	margin: 0;
+	padding: 6px 2px;
+	min-height: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 4px;
+	box-shadow: none;
+	color: inherit;
+	font: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	text-transform: none;
+	letter-spacing: 0;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.mqf-quote .mqf-route .mqf-route__edit:hover {
+	background: transparent;
+	color: inherit;
+	opacity: 0.8;
+}
+
+.mqf-quote .mqf-route .mqf-route__edit:focus-visible {
+	outline: 2px solid var(--mqf-bar-text);
+	outline-offset: 2px;
+}
+
+.mqf-quote .mqf-fields {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.mqf-quote .mqf-field {
+	min-width: 0;
+	margin: 0;
+}
+
+.mqf-quote .mqf-field--full,
+.mqf-quote .mqf-field--textarea,
+.mqf-quote .mqf-field--radio,
+.mqf-quote .mqf-field--checkbox {
+	grid-column: 1 / -1;
+}
+
+.mqf-quote .mqf-field .mqf-field__label {
+	display: block;
+	float: none;
+	width: auto;
+	margin: 0 0 6px;
+	padding: 0;
+	color: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+.mqf-quote .mqf-field__req {
+	color: #fda29b;
+}
+
+.mqf-quote .mqf-field .mqf-input {
+	display: block;
+	width: 100%;
+	max-width: none;
+	height: var(--mqf-field-height);
+	min-height: 0;
+	margin: 0;
+	padding: 0 18px;
+	background-color: var(--mqf-field-bg);
+	color: var(--mqf-field-text);
+	border: 2px solid transparent;
+	border-radius: 999px;
+	box-shadow: none;
+	outline: 0;
+	font: inherit;
+	font-size: 16px;
+	line-height: 1.3;
+	-webkit-appearance: none;
+	appearance: none;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mqf-quote .mqf-field .mqf-input::placeholder {
+	color: inherit;
+	opacity: 0.55;
+}
+
+.mqf-quote .mqf-field .mqf-input.mqf-input--textarea {
+	height: auto;
+	min-height: 96px;
+	padding: 12px 18px;
+	border-radius: 18px;
+	resize: vertical;
+}
+
+.mqf-quote .mqf-field .mqf-input.mqf-input--select {
+	padding-inline-end: 44px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2316213a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 18px center;
+	cursor: pointer;
+}
+
+.mqf-quote .mqf-field .mqf-input:focus {
+	border-color: var(--mqf-accent);
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--mqf-accent) 38%, transparent);
+}
+
+.mqf-quote .mqf-field.mqf-has-error .mqf-input {
+	border-color: #f97066;
+}
+
+.mqf-quote .mqf-field .mqf-field__group {
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.mqf-quote .mqf-field__choices {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 22px;
+}
+
+.mqf-quote .mqf-field .mqf-choice {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	min-height: 28px;
+	color: inherit;
+	font-size: 14px;
+	font-weight: 400;
+	cursor: pointer;
+}
+
+.mqf-quote .mqf-field .mqf-choice input {
+	flex: none;
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	accent-color: var(--mqf-accent);
+}
+
+.mqf-quote .mqf-hp {
+	position: absolute !important;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.mqf-quote .mqf-actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+}
+
+.mqf-quote .mqf-btn.mqf-btn--submit {
+	height: 48px;
+	padding: 0 34px;
+	font-size: 15px;
+}
+
+/* ---------- success ---------- */
+
+.mqf-quote .mqf-panel--success {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	padding: 32px 24px;
+	text-align: center;
+	outline: 0;
+}
+
+.mqf-quote .mqf-success__icon {
+	flex: none;
+	color: #6ce9a6;
+}
+
+.mqf-quote .mqf-success__text {
+	margin: 0;
+	color: inherit;
+	font-size: 17px;
+	font-weight: 600;
+	line-height: 1.45;
+}
+
+/* ---------- narrow containers (phones, narrow columns) ---------- */
+
+@container (max-width: 640px) {
+	.mqf-quote .mqf-bar {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 8px;
+		padding: 14px;
+	}
+
+	.mqf-quote .mqf-loc {
+		flex: none;
+		width: 100%;
+	}
+
+	.mqf-quote .mqf-bar__dots {
+		flex-direction: column;
+		justify-content: center;
+		align-self: flex-start;
+		gap: 4px;
+		height: auto;
+		margin-inline-start: 25px;
+	}
+
+	.mqf-quote .mqf-bar__dots i:nth-child(n + 4) {
+		display: none;
+	}
+
+	.mqf-quote .mqf-btn.mqf-btn--quote {
+		width: 100%;
+		margin-top: 6px;
+		height: 48px;
+		font-size: 15px;
+	}
+
+	.mqf-quote .mqf-panel {
+		padding: 18px 16px;
+	}
+
+	.mqf-quote .mqf-panel .mqf-panel__title {
+		font-size: 18px;
+	}
+
+	.mqf-quote .mqf-route {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 10px;
+	}
+
+	.mqf-quote .mqf-route .mqf-route__edit {
+		justify-self: start;
+	}
+
+	.mqf-quote .mqf-fields {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 14px;
+	}
+
+	.mqf-quote .mqf-actions {
+		margin-top: 18px;
+	}
+
+	.mqf-quote .mqf-btn.mqf-btn--submit {
+		width: 100%;
+	}
+}
+
+/* Same layout for browsers without container queries. */
+@supports not (container-type: inline-size) {
+	@media (max-width: 680px) {
+		.mqf-quote .mqf-bar {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 8px;
+			padding: 14px;
+		}
+
+		.mqf-quote .mqf-loc {
+			flex: none;
+			width: 100%;
+		}
+
+		.mqf-quote .mqf-bar__dots {
+			flex-direction: column;
+			justify-content: center;
+			align-self: flex-start;
+			gap: 4px;
+			height: auto;
+			margin-inline-start: 25px;
+		}
+
+		.mqf-quote .mqf-bar__dots i:nth-child(n + 4) {
+			display: none;
+		}
+
+		.mqf-quote .mqf-btn.mqf-btn--quote,
+		.mqf-quote .mqf-btn.mqf-btn--submit {
+			width: 100%;
+		}
+
+		.mqf-quote .mqf-route,
+		.mqf-quote .mqf-fields {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mqf-quote .mqf-step,
+	.mqf-quote .mqf-btn.mqf-btn {
+		transition: none;
+	}
+
+	.mqf-quote .mqf-btn__spinner {
+		animation-duration: 1.6s;
+	}
+}
+
+/* ---------- address suggestions (attached to <body>) ---------- */
+
+.mqf-suggest {
+	--mqf-accent: #3b82f6;
+
+	position: fixed;
+	z-index: 2147483000;
+	top: 0;
+	left: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background: #ffffff;
+	color: #16213a;
+	border-radius: 14px;
+	box-shadow: 0 0 0 1px rgba(6, 24, 58, 0.08), 0 14px 34px rgba(6, 24, 58, 0.24);
+	font-size: 14px;
+	line-height: 1.35;
+	text-align: start;
+}
+
+.mqf-suggest[hidden],
+.mqf-suggest [hidden] {
+	display: none !important;
+}
+
+.mqf-suggest *,
+.mqf-suggest *::before,
+.mqf-suggest *::after {
+	box-sizing: border-box;
+}
+
+.mqf-suggest .mqf-suggest__list {
+	margin: 0;
+	padding: 6px;
+	list-style: none;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+}
+
+.mqf-suggest .mqf-suggest__list .mqf-suggest__item {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	min-height: 44px;
+	margin: 0;
+	padding: 10px 12px;
+	list-style: none;
+	border-radius: 10px;
+	color: inherit;
+	cursor: pointer;
+}
+
+.mqf-suggest .mqf-suggest__list .mqf-suggest__item::before,
+.mqf-suggest .mqf-suggest__list .mqf-suggest__item::marker {
+	content: none;
+}
+
+.mqf-suggest .mqf-suggest__list .mqf-suggest__item.mqf-is-active {
+	background: #eaf1ff;
+	background: color-mix(in srgb, var(--mqf-accent) 13%, #ffffff);
+}
+
+.mqf-suggest .mqf-suggest__icon {
+	flex: none;
+	width: 16px;
+	height: 16px;
+	margin-top: 2px;
+	background: currentColor;
+	opacity: 0.45;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.5'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.mqf-suggest .mqf-suggest__text {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.mqf-suggest .mqf-suggest__main {
+	display: block;
+	font-weight: 500;
+}
+
+.mqf-suggest .mqf-suggest__main strong,
+.mqf-suggest .mqf-suggest__secondary strong {
+	font-weight: 700;
+	color: inherit;
+}
+
+.mqf-suggest .mqf-suggest__secondary {
+	display: block;
+	margin-top: 1px;
+	color: #5b6478;
+	font-size: 12.5px;
+}
+
+.mqf-suggest .mqf-suggest__status {
+	padding: 13px 16px;
+	color: #5b6478;
+}
+
+.mqf-suggest .mqf-suggest__footer {
+	padding: 6px 14px 7px;
+	border-top: 1px solid #eef0f4;
+	color: #70757a;
+	font-size: 11px;
+	text-align: end;
+}

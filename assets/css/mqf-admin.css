@@ -1,0 +1,115 @@
+/* Moving Quote Form – settings screen */
+.mqf-admin .mqf-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 4px 20px 16px;
+	margin: 16px 0;
+	max-width: 980px;
+}
+
+.mqf-admin .mqf-card h2 {
+	font-size: 15px;
+	margin: 16px 0 4px;
+}
+
+.mqf-admin .mqf-card h3 {
+	margin: 20px 0 4px;
+}
+
+.mqf-admin .mqf-card--usage ul {
+	margin: 8px 0 4px;
+}
+
+.mqf-admin .mqf-card--usage li {
+	margin-bottom: 6px;
+}
+
+.mqf-admin .form-table th {
+	width: 230px;
+}
+
+.mqf-fieldrows {
+	margin: 12px 0;
+	display: grid;
+	gap: 8px;
+}
+
+.mqf-fieldrow {
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #f9f9fa;
+	padding: 10px 12px;
+}
+
+.mqf-fieldrow__main,
+.mqf-fieldrow__extra {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 10px 14px;
+}
+
+.mqf-fieldrow__extra {
+	margin-top: 8px;
+}
+
+.mqf-fieldrow__cell {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	font-size: 12px;
+	color: #50575e;
+	min-width: 140px;
+}
+
+.mqf-fieldrow__cell--label {
+	flex: 1 1 220px;
+}
+
+.mqf-fieldrow__cell input[type="text"],
+.mqf-fieldrow__cell select,
+.mqf-fieldrow__cell textarea {
+	width: 100%;
+	max-width: none;
+}
+
+.mqf-fieldrow__extra .mqf-fieldrow__cell {
+	flex: 1 1 260px;
+}
+
+.mqf-fieldrow__cell--check {
+	flex-direction: row;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	padding-bottom: 6px;
+	font-size: 13px;
+	color: #1d2327;
+}
+
+.mqf-fieldrow__extra .mqf-fieldrow__cell--check {
+	flex: 0 0 auto;
+}
+
+.mqf-fieldrow__actions {
+	display: flex;
+	gap: 6px;
+	padding-bottom: 4px;
+	margin-left: auto;
+}
+
+.mqf-fieldrow__actions .button-link {
+	color: #50575e;
+	text-decoration: none;
+}
+
+.mqf-fieldrow__actions .button-link:hover,
+.mqf-fieldrow__actions .button-link:focus {
+	color: #2271b1;
+}
+
+.mqf-fieldrow__actions .mqf-fieldrow__remove:hover,
+.mqf-fieldrow__actions .mqf-fieldrow__remove:focus {
+	color: #b32d2e;
+}
